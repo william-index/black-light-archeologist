@@ -11,6 +11,8 @@ class SpinePlotter(object):
     _startPoint = attr.ib()
     _endPoint = attr.ib()
     _curveRate = attr.ib()
+    _vertSize = attr.ib()
+    _nubSize = attr.ib()
 
     vertebrae = attr.ib(default = [])
 
@@ -42,10 +44,18 @@ class SpinePlotter(object):
             if linePosition[0] % 10 == 0:
                 x = linePosition[0] + sinOff
                 y = linePosition[1] + (sinOff * -1)
+                rawCurceAngle = math.cos(curvedDistance)
+                nubXOffset = abs(rawCurceAngle - 1) * self._vertSize/2
 
                 vert = Vertebra(
                     coordinates = (x, y),
-                    angle = 0)
+                    angle = rawCurceAngle,
+                    nubOffset = self._vertSize/2 - self._nubSize/2,
+                    nubXOff = nubXOffset,
+                    nubYOff = nubXOffset - self._vertSize/2 - self._nubSize,
+                    size = self._vertSize,
+                    nubSize = self._nubSize
+                )
 
                 self.vertebrae.append(vert)
 
