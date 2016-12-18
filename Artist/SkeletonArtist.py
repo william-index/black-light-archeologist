@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import attr
+import math
 from random import randint
 from PIL import Image, ImageDraw, ImageOps, ImageFont
 
@@ -12,62 +13,38 @@ class SkeletonArtist(object):
     _spine = attr.ib()
 
     def drawSkeleton(self, color):
-        self.drawRibs(color)
         self.drawSpine(color)
+        self.drawRibs(color)
         pass
 
     def drawRibs(self, color):
-        print len(self._spine.nodes)
         draw = ImageDraw.Draw(self._scene)
-        fullSize = randint(50, 150)
-
-        startRib = randint(4, len(self._spine.nodes))
-        endRib = randint(startRib, len(self._spine.nodes))
 
         onVert = 0
-        onRib = 0
-        arcLength = 50 + randint(0, 40)
+        startVert = randint(1, len(self._spine.nodes))
+        endVert = randint(startVert, len(self._spine.nodes))
 
         for vert in self._spine.nodes:
-            if onVert > startRib and onVert < endRib:
-                onRib = onRib + 1
-
-                ribSizeMod =  1.0 - abs(((float(onRib) / float(endRib - startRib)) - 0.5) * 2)
-                size = fullSize * ribSizeMod
-
-                netVertOffset = (vert.angle + 1)/2
-                xShift = (1 - netVertOffset) * size/2
-                yShift =  netVertOffset * size/2
-
-                lineStart = (vert.nub1X - xShift + vert.nubSize*2 * (1 - netVertOffset), vert.nub1Y - yShift)
-                lineEnd = (lineStart[0] + size, lineStart[1] + size)
-
-                lineStart = (lineStart[0] + vert.size/2, lineStart[1])
-
-                altRibLineStart = (vert.nub2X - xShift - vert.nubSize*2 * netVertOffset, vert.nub2Y - yShift)
-                altRibLineEnd = (altRibLineStart[0] + size - vert.nubSize*2, altRibLineStart[1] + size + vert.nubSize*2)
-
-                altRibLineStart = (altRibLineStart[0] + vert.size/2, altRibLineStart[1])
-
-                startArc = 270 - (arcLength * netVertOffset)
-                endArc = startArc + arcLength
-
-                for i in range(3):
-                    # lineStart = (lineStart[0]+i, lineStart[1]+1)
-                    draw.arc(
-                        [lineStart, lineEnd],
-                        startArc,
-                        endArc,
-                        (0, 255, 0))
-
-                    # altRibLineStart = (altRibLineStart[0] + 1*(netVertOffset), altRibLineStart[1] + 1*netVertOffset)
-                    draw.arc(
-                        [altRibLineStart, altRibLineEnd],
-                        startArc - arcLength,
-                        startArc,
-                        (0, 255, 0))
-
             onVert = onVert + 1
+            incrementor = math.atan(vert.slope)
+            circSize = vert.size/2
+
+            if onVert > startVert and onVert < endVert:
+                for i in range(50):
+                    circSize = circSize - 0.1
+                    draw.ellipse(
+                        (vert.nub1X - circSize + (1-incrementor)*i,
+                         vert.nub1Y - circSize - incrementor*i,
+                         vert.nub1X + circSize + (1-incrementor)*i,
+                         vert.nub1Y + circSize - incrementor*i),
+                         fill = (255, 0, 255, 0))
+
+                    draw.ellipse(
+                        (vert.nub2X - circSize - (1-incrementor)*i,
+                         vert.nub2Y - circSize + incrementor*i,
+                         vert.nub2X + circSize - (1-incrementor)*i,
+                         vert.nub2Y + circSize + incrementor*i),
+                         fill = (255, 0, 255, 0))
 
     def drawSpine(self, color):
         draw = ImageDraw.Draw(self._scene)

@@ -57,6 +57,6 @@ class Vertebra(object):
 
     @property
     def slope(self):
-        rise = (self.nub1Y - self.nub2Y)
-        run = (self.nub1X - self.nub2X)
+        rise = (self.nub1Y - self.nub2Y) or 1
+        run = (self.nub1X - self.nub2X) or 1
         return rise/run * -1
