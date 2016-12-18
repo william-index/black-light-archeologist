@@ -1,19 +1,22 @@
 import math
+from random import randint
 from PIL import Image, ImageDraw, ImageOps, ImageFont
+
 from Necromancer import SpinePlotter
 from Artist import SkeletonArtist
 
 # @TODO vary spacing and size
 
 # Setup Base Canvas
-canvas = (300, 300)
+canvas = (400, 400)
 scene = Image.new('RGB', canvas, (0,0,0,0))
 
 # Define spine geometry
-pointA = (30, 30)
-pointB = (260, 260)
-curveRate = 1
-vertSize = 10
+pointA = (90, 90)
+pointB = (290, 290)
+curveRate = ((randint(1, 100)/100.0) * 1.7) + 0.3
+vertSize = randint(3, 13)
+
 
 # Create Spine
 spine = SpinePlotter(
@@ -27,7 +30,6 @@ skeletonArtist = SkeletonArtist(
                  spine = spine)
 # Draw Skeleton
 skeletonArtist.drawSkeleton(color = (255, 0, 0))
-
 
 
 scene.save('art/generated/foo.png')

@@ -61,7 +61,9 @@ class SpinePlotter(object):
 
             linePosition = (linePosition[0]+1, linePosition[1]+1)
 
-            if linePosition[0] % self._vertSize == 0:
+            plotDivisor = math.floor(self._curveRate) or 1
+            plotIncrement = self._vertSize * plotDivisor
+            if linePosition[0] % plotIncrement == 0:
                 self.addVertebra(curvedDistance, sinOff, cosOff, linePosition)
 
         pass
