@@ -13,6 +13,7 @@ class Vertebra(object):
     _nubYOff = attr.ib()
     _size = attr.ib()
     _nubSize = attr.ib()
+    _scale = attr.ib()
 
     @property
     def x(self):
@@ -33,6 +34,10 @@ class Vertebra(object):
     @property
     def nubSize(self):
         return self._nubSize
+
+    @property
+    def scale(self):
+        return self._scale
 
     @property
     def nub1X(self):
