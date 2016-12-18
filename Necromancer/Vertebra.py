@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import attr
+from random import randint
 
 """
 A segment of the spine
@@ -14,6 +15,11 @@ class Vertebra(object):
     _size = attr.ib()
     _nubSize = attr.ib()
     _scale = attr.ib()
+    _hasLimbs = attr.ib(default=False)
+
+    _limbSegments = 0
+    _limbBrances = []
+    _segLengths = []
 
     @property
     def x(self):
@@ -22,6 +28,14 @@ class Vertebra(object):
     @property
     def y(self):
         return self._coordinates[1]
+
+    @property
+    def segLengths(self):
+        if self._segLengths == []:
+            for i in range(1, self.limbSegments):
+                self._segLengths.append(randint(10, 80))
+
+        return self._segLengths
 
     @property
     def angle(self):
@@ -38,6 +52,19 @@ class Vertebra(object):
     @property
     def scale(self):
         return self._scale
+
+    @property
+    def hasLimbs(self):
+        return self._hasLimbs
+
+    @property
+    def limbSegments(self):
+        if self._limbSegments == 0:
+            self._limbSegments = randint(1, 5)
+
+        return self._limbSegments
+    # _limbBrances = []
+
 
     @property
     def nub1X(self):
