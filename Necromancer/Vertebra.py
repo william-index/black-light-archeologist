@@ -36,19 +36,19 @@ class Vertebra(object):
 
     @property
     def nub1X(self):
-        return self.x + self._nubOffset + self._nubXOff
+        return self.x + self._nubOffset + self._nubXOff*.9
 
     @property
     def nub1Y(self):
-        return self.y + self._nubOffset + self._nubYOff
+        return self.y + self._nubOffset + self._nubYOff*.9
 
     @property
     def nub2X(self):
-        return self.x + self._nubOffset - self._nubXOff
+        return self.x + self._nubOffset - self._nubXOff*.9
 
     @property
     def nub2Y(self):
-        return self.y + self._nubOffset - self._nubYOff
+        return self.y + self._nubOffset - self._nubYOff*.9
 
     @property
     def slope(self):

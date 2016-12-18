@@ -12,9 +12,15 @@ class SpinePlotter(object):
     _endPoint = attr.ib()
     _curveRate = attr.ib()
     _vertSize = attr.ib()
-    _nubSize = attr.ib()
 
     vertebrae = attr.ib(default = [])
+
+    @property
+    def nubSize(self):
+        halfSize = self._vertSize/2
+        # forces even number rounding down
+        halfSize = halfSize - (halfSize % 2)
+        return halfSize
 
     @property
     def nodes(self):
@@ -41,7 +47,7 @@ class SpinePlotter(object):
 
             linePosition = (linePosition[0]+1, linePosition[1]+1)
 
-            if linePosition[0] % 10 == 0:
+            if linePosition[0] % self._vertSize == 0:
                 x = linePosition[0] + sinOff
                 y = linePosition[1] + (sinOff * -1)
                 rawCurceAngle = math.cos(curvedDistance)
@@ -50,11 +56,11 @@ class SpinePlotter(object):
                 vert = Vertebra(
                     coordinates = (x, y),
                     angle = rawCurceAngle,
-                    nubOffset = self._vertSize/2 - self._nubSize/2,
+                    nubOffset = self._vertSize/2 - self.nubSize/2,
                     nubXOff = nubXOffset,
-                    nubYOff = nubXOffset - self._vertSize/2 - self._nubSize,
+                    nubYOff = nubXOffset - self._vertSize/2 - self.nubSize,
                     size = self._vertSize,
-                    nubSize = self._nubSize
+                    nubSize = self.nubSize
                 )
 
                 self.vertebrae.append(vert)
