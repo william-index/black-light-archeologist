@@ -26,7 +26,7 @@ class LimbArtist(object):
 
         segments = randint(1, 4)
         fingers = randint (1, 10)
-        limbLength = randint(10, 70)
+        limbLength = randint(20, 60)
 
         previousBoneBBox = (10, 0)
         previousRotation = 0
@@ -35,7 +35,7 @@ class LimbArtist(object):
             rotation = randint(0, 90)
 
             # Draw Bones and rotate
-            bone = self.drawBone(limbLength, int(vert.size))
+            bone = self.drawBone(limbLength + randint(-15, 15), int(vert.size / 2))
             bone = bone.rotate(rotation * -1, expand=True)
 
             # Angled offset for joint formation
