@@ -54,26 +54,27 @@ class SkeletonArtist(object):
     # @TODO abstract to a segment ploting artist
     def drawVertebra(self, vert, color):
         draw = ImageDraw.Draw(self._scene)
+        stroke = 2
 
-        draw.ellipse(
-            (vert.x,
-             vert.y,
-             vert.x + vert.size,
-             vert.y + vert.size),
-             fill = color)
+        for strokeMod in [stroke, 0]:
+            fillColor = color if strokeMod == 0 else (0,0,0,255)
+            draw.ellipse(
+                (vert.x - strokeMod,
+                 vert.y - strokeMod,
+                 vert.x + vert.size + strokeMod,
+                 vert.y + vert.size + strokeMod),
+                 fill = fillColor)
 
+            draw.ellipse(
+                (vert.nub1X - strokeMod,
+                 vert.nub1Y - strokeMod,
+                 vert.nub1X + vert.nubSize + strokeMod,
+                 vert.nub1Y + vert.nubSize + strokeMod),
+                 fill = fillColor)
 
-        draw.ellipse(
-            (vert.nub1X,
-             vert.nub1Y,
-             vert.nub1X + vert.nubSize,
-             vert.nub1Y + vert.nubSize),
-             fill = color)
-
-
-        draw.ellipse(
-            (vert.nub2X,
-             vert.nub2Y,
-             vert.nub2X + vert.nubSize,
-             vert.nub2Y + vert.nubSize),
-             fill = color)
+            draw.ellipse(
+                (vert.nub2X - strokeMod,
+                 vert.nub2Y - strokeMod,
+                 vert.nub2X + vert.nubSize + strokeMod,
+                 vert.nub2Y + vert.nubSize + strokeMod),
+                 fill = fillColor)
