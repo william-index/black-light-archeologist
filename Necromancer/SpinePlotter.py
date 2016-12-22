@@ -50,11 +50,13 @@ class SpinePlotter(object):
         linePosition = self._startPoint
         lineEnd = self._endPoint
 
+        taperPercent = float(randint(50,90))/100.0
         while linePosition[0] < lineEnd[0]:
             position = float(linePosition[0] - self._startPoint[0])
             runway = float(lineEnd[0] - self._startPoint[0])
             distance = position/runway
-            self.spinalScale = 1 - abs(distance - 0.5)
+            # print distance
+            self.spinalScale = 1 - abs(distance - taperPercent) if distance > taperPercent else 1
 
             curvedDistance = math.radians(distance*360*self._curveRate)
             sinOff = math.sin(curvedDistance) * 25
