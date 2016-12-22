@@ -9,7 +9,7 @@ from Artist import SkeletonArtist
 
 # Setup Base Canvas
 canvas = (400, 400)
-scene = Image.new('RGB', canvas, (0,0,0,0))
+scene = Image.new('RGB', canvas, (100,100,100,0))
 
 # Define spine geometry
 pointA = (90, 90)

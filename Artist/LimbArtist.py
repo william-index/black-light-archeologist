@@ -54,17 +54,30 @@ class LimbArtist(object):
 
 
     def drawBone(self, boneWidth, thickness):
-        canvas = (boneWidth+thickness, int(thickness*2))
+        stroke = 2
+
+        canvas = (boneWidth+thickness + stroke*2, int(thickness*2) + stroke*2)
         boneScene = Image.new('RGBA', canvas, (0,0,0,0))
         draw = ImageDraw.Draw(boneScene)
 
-        for capsX in [0, boneWidth]:
-            draw.ellipse((0+capsX, 0, thickness+capsX, thickness), fill = (255,255,0,255))
-            draw.ellipse((0+capsX, thickness*.75, thickness+capsX, thickness*.75 + thickness), fill = (255,255,0,255))
+        # outline (yes I know copy paste twice is just sloppy here...)
         draw.line(
-            (thickness/2, thickness*.75, thickness/2+boneWidth, thickness*.75),
+            (thickness/2, thickness*.75 + stroke, thickness/2+boneWidth, thickness*.75 + stroke),
+            fill = (0,0,0,255),
+            width = thickness + stroke*2)
+
+        for capsX in [0, boneWidth]:
+            draw.ellipse((0+capsX - stroke, 0 - stroke, thickness+capsX + stroke, thickness + stroke), fill = (0,0,0,255))
+            draw.ellipse((0+capsX - stroke, thickness*.75 - stroke, thickness+capsX + stroke, thickness*.75 + thickness + stroke), fill = (0,0,0,255))
+
+        # actual bone
+        for capsX in [0, boneWidth]:
+            draw.ellipse((0+capsX + stroke, stroke, thickness+capsX, thickness), fill = (255,255,0,255))
+            draw.ellipse((0+capsX + stroke, thickness*.75 + stroke, thickness+capsX, thickness*.75 + thickness), fill = (255,255,0,255))
+
+        draw.line(
+            (thickness/2, thickness*.75 + stroke, thickness/2+boneWidth, thickness*.75 + stroke),
             fill = (255,255,0,255),
-            width = thickness
-        )
+            width = thickness)
 
         return boneScene
