@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import attr
 import math
+from random import randint
 from Vertebra import Vertebra
 
 """
@@ -74,6 +75,8 @@ class SpinePlotter(object):
         rawCurceAngle = math.cos(curvedDistance)
         nubXOffset = abs(rawCurceAngle - 1) * self.localVertSize/2
 
+        # @TODO claculate chance of limbs
+        hasLimbs = True if randint(0,15) == 10 else False
 
         vert = Vertebra(
             coordinates = (x, y),
@@ -83,7 +86,8 @@ class SpinePlotter(object):
             nubYOff = nubXOffset - self.localVertSize/2 - self.nubSize,
             size = self.localVertSize,
             nubSize = self.nubSize,
-            scale = self.spinalScale
+            scale = self.spinalScale,
+            hasLimbs = hasLimbs
         )
 
         self.vertebrae.append(vert)
